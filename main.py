@@ -3,6 +3,14 @@ import os
 
 from dotenv import load_dotenv
 from openai import OpenAI
+from openai.types.chat import ChatCompletion
+
+def generate_content(client: OpenAI, messages: list[dict[str, str]]) -> ChatCompletion:
+    return client.chat.completions.create(
+        model="openrouter/free",
+        messages=messages,
+    )
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="AI Code Assistant")
@@ -18,22 +26,16 @@ def main() -> None:
         base_url="https://openrouter.ai/api/v1",
         api_key=api_key,
     )
-    response = client.chat.completions.create(
-        model="openrouter/free",
-        messages=[
-            {
-                "role": "user",
-                "content": args.user_prompt,
-            }
-        ],
-        max_tokens=50,
-    )
+
+    messages = [
+        {"role": "user", "content": args.user_prompt},
+    ]
+
+    response = generate_content(client, messages)
 
     if not response.usage:
         raise RuntimeError("API response appears to be malformed")
 
-    # User prompt
-    print("User prompt:", args.user_prompt)
     print("Prompt tokens:", response.usage.prompt_tokens)
     print("Response tokens:", response.usage.completion_tokens)
     print("Response:")
