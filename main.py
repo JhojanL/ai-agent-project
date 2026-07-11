@@ -24,6 +24,13 @@ def main() -> None:
         max_tokens=50,
     )
 
+    if not response.usage:
+        raise RuntimeError("API response appears to be malformed")
+
+    # User prompt
+    print("User prompt: Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum.")
+    print("Prompt tokens:", response.usage.prompt_tokens)
+    print("Response tokens:", response.usage.completion_tokens)
     print("Response:")
     print(response.choices[0].message.content)
 
