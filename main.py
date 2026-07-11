@@ -15,6 +15,7 @@ def generate_content(client: OpenAI, messages: list[dict[str, str]]) -> ChatComp
 def main() -> None:
     parser = argparse.ArgumentParser(description="AI Code Assistant")
     parser.add_argument("user_prompt", type=str, help="Prompt to send to the LLM")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
     
     load_dotenv()
@@ -36,10 +37,11 @@ def main() -> None:
     if not response.usage:
         raise RuntimeError("API response appears to be malformed")
 
-    print("Prompt tokens:", response.usage.prompt_tokens)
-    print("Response tokens:", response.usage.completion_tokens)
-    print("Response:")
-    print(response.choices[0].message.content)
+    if args.verbose:
+        print(f"User prompt: {args.user_prompt}")
+        print(f"Prompt tokens: {response.usage.prompt_tokens}")
+        print(f"Response tokens: {response.usage.completion_tokens}")
+    print("Response:", response.choices[0].message.content)
 
 
 if __name__ == "__main__":
