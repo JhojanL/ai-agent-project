@@ -1,9 +1,14 @@
+import argparse
 import os
 
 from dotenv import load_dotenv
 from openai import OpenAI
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="AI Code Assistant")
+    parser.add_argument("user_prompt", type=str, help="Prompt to send to the LLM")
+    args = parser.parse_args()
+    
     load_dotenv()
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
@@ -18,7 +23,7 @@ def main() -> None:
         messages=[
             {
                 "role": "user",
-                "content": "Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum.",
+                "content": args.user_prompt,
             }
         ],
         max_tokens=50,
@@ -28,7 +33,7 @@ def main() -> None:
         raise RuntimeError("API response appears to be malformed")
 
     # User prompt
-    print("User prompt: Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum.")
+    print("User prompt:", args.user_prompt)
     print("Prompt tokens:", response.usage.prompt_tokens)
     print("Response tokens:", response.usage.completion_tokens)
     print("Response:")
