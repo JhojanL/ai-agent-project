@@ -1,7 +1,7 @@
 from functions.get_file_content import get_file_content
 
-if __name__ == "__main__":
-    # Test 1: lorem.txt (Truncation check)
+def test() -> None:
+     # Test 1: lorem.txt (Truncation check)
     result = get_file_content("calculator", "lorem.txt")
     print(f"lorem.txt length: {len(result)}")
     print(f"lorem.txt truncated: {'truncated' in result}")
@@ -25,3 +25,6 @@ if __name__ == "__main__":
     # Test 5: pkg/does_not_exist.py (Missing file error)
     print("get_file_content('calculator', 'pkg/does_not_exist.py'):")
     print(get_file_content("calculator", "pkg/does_not_exist.py"))
+
+if __name__ == "__main__":
+   test()

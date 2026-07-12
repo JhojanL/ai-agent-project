@@ -5,7 +5,7 @@ def print_formatted_result(result: str, indent_spaces: int):
     for line in result.splitlines():
         print(" " * indent_spaces + line)
 
-if __name__ == "__main__":
+def test() -> None:
     # Test 1: Current directory ('.')
     print('get_files_info("calculator", "."):')
     print('Result for current directory:')
@@ -28,3 +28,6 @@ if __name__ == "__main__":
     print('get_files_info("calculator", "../"):')
     print("Result for '../' directory:")
     print_formatted_result(get_files_info("calculator", "../"), indent_spaces=4)
+
+if __name__ == "__main__":
+    test()
