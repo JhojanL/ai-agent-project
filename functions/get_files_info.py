@@ -1,6 +1,10 @@
 import os
 
 def get_files_info(working_directory: str, directory: str = ".") -> str:
+    """
+    Validates the directory path, ensures it is within the working directory,
+    and returns information about the files in the directory.
+    """
     try:
         abs_working_dir = os.path.abspath(working_directory)
         target_dir = os.path.normpath(os.path.join(abs_working_dir, directory))
