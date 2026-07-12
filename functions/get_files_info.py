@@ -1,28 +1,29 @@
 import os
 
 def get_files_info(working_directory: str, directory: str = ".") -> str:
-    """
-    Validates if the target directory is within the permitted working directory
-    and ensures it exists.
-    """
     try:
-        # Get the absolute path of the working directory
-        working_dir_abs = os.path.abspath(working_directory)
+        abs_working_dir = os.path.abspath(working_directory)
+        target_dir = os.path.normpath(os.path.join(abs_working_dir, directory))
         
-        # Safely combine and normalize the paths
-        target_dir = os.path.normpath(os.path.join(working_dir_abs, directory))
-        
-        # Verify the target directory does not escape the working directory
-        valid_target_dir = os.path.commonpath([working_dir_abs, target_dir]) == working_dir_abs
-        
-        if not valid_target_dir:
+        # Path validation
+        if os.path.commonpath([abs_working_dir, target_dir]) != abs_working_dir:
             return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
             
-        # Verify that the path is an actual directory
         if not os.path.isdir(target_dir):
             return f'Error: "{directory}" is not a directory'
             
-        return f'Success: "{directory}" is within the working directory'
+        # Explicit type hinting with accurate variable naming
+        files_info: list[str] = []
+        for item in os.listdir(target_dir):
+            item_path = os.path.join(target_dir, item)
+            is_dir = os.path.isdir(item_path)
+            file_size = os.path.getsize(item_path)
+            files_info.append(
+                f"- {item}: file_size={file_size} bytes, is_dir={is_dir}"
+            )
+            
+        return "\n".join(files_info)
         
     except Exception as e:
-        return f"Error: {str(e)}"
+        # Contextual error description
+        return f"Error listing files: {e}"
