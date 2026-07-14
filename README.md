@@ -10,6 +10,13 @@ This project implements a **ReAct-style agentic loop** where a language model de
 User Prompt ──▶ LLM ──▶ Tool Call(s) ──▶ Local Execution ──▶ Result ──▶ LLM ──▶ ... ──▶ Final Response
 ```
 
+> [!WARNING]
+> **Security Disclaimer:** This repository serves as an experimental reference implementation and proof-of-concept (PoC) designed strictly for educational purposes.
+> 
+> The integrated toolset grants the language model the capability to execute Python scripts locally via subprocesses. Because the current environment does not employ virtualization or containerized isolation (such as Docker), the agent operates directly on the host operating system. Consequently, untrusted inputs, unexpected model evaluations, or prompt injection vulnerabilities could result in unintended file system mutations or code execution.
+> 
+> **This implementation is not intended for production environments, nor should it be executed on systems with access to sensitive directories, private networks, or privileged API keys.**
+
 ### Key Concepts
 
 - **Tool-use / Function-calling** — the LLM receives JSON schemas describing available tools and returns structured calls instead of free-form text.
