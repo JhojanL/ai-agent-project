@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from openai.types.chat import ChatCompletion
 from prompts import system_prompt
-from call_function import available_functions
+from call_function import available_functions, call_function
 
 def generate_content(client: OpenAI, messages: list[dict[str, str]]) -> ChatCompletion:
     return client.chat.completions.create(
@@ -58,8 +58,11 @@ def main() -> None:
     for tool_call in message.tool_calls:
         if tool_call.type != "function":
             continue
-        function_args = json.loads(tool_call.function.arguments or "{}")
-        print(f"Calling function: {tool_call.function.name}({function_args})")
+        result_message = call_function(tool_call, verbose=args.verbose)
+        if not result_message.get("content"):
+            raise ValueError("Returned tool message has empty content")
+        if args.verbose:
+            print(f"-> {result_message['content']}")
 
 
 if __name__ == "__main__":
