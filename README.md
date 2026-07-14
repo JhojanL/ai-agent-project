@@ -132,4 +132,4 @@ Runtime constants are centralized in `config.py`:
 
 ## License
 
-This project is for educational and portfolio purposes.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
