@@ -16,7 +16,9 @@ def get_llm_client() -> OpenAI:
     load_dotenv()
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
-        print("Error: OPENROUTER_API_KEY environment variable not set.", file=sys.stderr)
+        print(
+            "Error: OPENROUTER_API_KEY environment variable not set.", file=sys.stderr
+        )
         sys.exit(1)
 
     return OpenAI(
@@ -25,9 +27,11 @@ def get_llm_client() -> OpenAI:
     )
 
 
-def run_conversation(client: OpenAI, messages: List[Dict[str, Any]], verbose: bool) -> None:
+def run_conversation(
+    client: OpenAI, messages: List[Dict[str, Any]], verbose: bool
+) -> None:
     """
-    Handles the core agent loop. Limits executions to MAX_ITERS iterations 
+    Handles the core agent loop. Limits executions to MAX_ITERS iterations
     to prevent runaway execution or infinite loops.
     """
     max_iterations = MAX_ITERS
@@ -55,7 +59,7 @@ def run_conversation(client: OpenAI, messages: List[Dict[str, Any]], verbose: bo
             print(f"Response tokens: {response.usage.completion_tokens}")
 
         assistant_message = response.choices[0].message
-        
+
         # 1. Save the assistant's turn in the chat history
         messages.append(assistant_message)
 
@@ -77,7 +81,9 @@ def run_conversation(client: OpenAI, messages: List[Dict[str, Any]], verbose: bo
             result_message = call_function(tool_call, verbose=verbose)
 
             if not result_message.get("content"):
-                raise RuntimeError(f"Empty function response returned for {tool_call.function.name}")
+                raise RuntimeError(
+                    f"Empty function response returned for {tool_call.function.name}"
+                )
 
             # 4. Save the tool execution response in the chat history
             messages.append(result_message)
@@ -88,7 +94,7 @@ def run_conversation(client: OpenAI, messages: List[Dict[str, Any]], verbose: bo
     # If the loop finishes without returning, the model exceeded the iteration limit
     print(
         f"\nError: Agent exceeded the maximum execution limit of {max_iterations} iterations without resolving.",
-        file=sys.stderr
+        file=sys.stderr,
     )
     sys.exit(1)
 

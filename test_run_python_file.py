@@ -1,5 +1,6 @@
 from functions.run_python_file import run_python_file
 
+
 def test() -> None:
     # Test 1: run_python_file("calculator", "main.py") (should print the calculator's usage instructions)
     print('run_python_file("calculator", "main.py"):')
@@ -30,6 +31,7 @@ def test() -> None:
     print('run_python_file("calculator", "lorem.txt"):')
     print(run_python_file("calculator", "lorem.txt"))
     print("-" * 40)
+
 
 if __name__ == "__main__":
     test()
