@@ -1,6 +1,5 @@
 """Shared fixtures for all tool function tests."""
 
-
 import pytest
 
 
