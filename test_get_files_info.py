@@ -1,14 +1,16 @@
 from functions.get_files_info import get_files_info
 
+
 def print_formatted_result(result: str, indent_spaces: int):
     """Helper function to match the assignment's exact indentation layout."""
     for line in result.splitlines():
         print(" " * indent_spaces + line)
 
+
 def test() -> None:
     # Test 1: Current directory ('.')
     print('get_files_info("calculator", "."):')
-    print('Result for current directory:')
+    print("Result for current directory:")
     print_formatted_result(get_files_info("calculator", "."), indent_spaces=2)
     print()
 
@@ -28,6 +30,7 @@ def test() -> None:
     print('get_files_info("calculator", "../"):')
     print("Result for '../' directory:")
     print_formatted_result(get_files_info("calculator", "../"), indent_spaces=4)
+
 
 if __name__ == "__main__":
     test()
